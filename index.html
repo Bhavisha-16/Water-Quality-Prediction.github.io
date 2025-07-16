@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Water Potability Prediction</title>
+  <style>
+    body {
+      background: #e6f2ff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #0077cc;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 15px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      background: #0077cc;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .potable {
+      color: green;
+    }
+
+    .not-potable {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Water Potability Predictor</h2>
+    <form id="predictForm">
+      <label>pH</label>
+      <input type="number" step="0.1" name="ph" required>
+
+      <label>Dissolved Oxygen</label>
+      <input type="number" step="0.1" name="do" required>
+
+      <label>BOD</label>
+      <input type="number" step="0.1" name="bod" required>
+
+      <label>Conductivity</label>
+      <input type="number" step="0.1" name="conductivity" required>
+
+      <label>Nitrate</label>
+      <input type="number" step="0.1" name="nitrate" required>
+
+      <label>Fecal Coliform</label>
+      <input type="number" step="1" name="fecal" required>
+
+      <button type="submit">Predict</button>
+    </form>
+
+    <div class="result" id="predictionResult"></div>
+  </div>
+
+  <script>
+    document.getElementById("predictForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const ph = parseFloat(document.querySelector("[name=ph]").value);
+      const do_ = parseFloat(document.querySelector("[name=do]").value);
+      const bod = parseFloat(document.querySelector("[name=bod]").value);
+      const conductivity = parseFloat(document.querySelector("[name=conductivity]").value);
+      const nitrate = parseFloat(document.querySelector("[name=nitrate]").value);
+      const fecal = parseFloat(document.querySelector("[name=fecal]").value);
+
+      // Simple rule-based logic for simulation (replace with ML/API if needed)
+      let isPotable = true;
+      if (ph < 6.5 || ph > 8.5) isPotable = false;
+      if (do_ < 5) isPotable = false;
+      if (bod > 3) isPotable = false;
+      if (nitrate > 10) isPotable = false;
+      if (fecal > 0) isPotable = false;
+
+      const resultDiv = document.getElementById("predictionResult");
+      if (isPotable) {
+        resultDiv.innerHTML = "✅ Water is <span class='potable'>Potable</span>";
+      } else {
+        resultDiv.innerHTML = "❌ Water is <span class='not-potable'>Not Potable</span>";
+      }
+    });
+  </script>
+</body>
+</html>
